@@ -1,4 +1,19 @@
-# Ignore training checkpoints and big dataset directories
+# -----------------------------
+# Local outputs / caches (do NOT commit)
+# -----------------------------
 reward-zlf/checkpoints/
+reward-zlf/outputs/
+reward-zlf/swanlog/
+reward-zlf/reward/.env
 reward-zlf/data/HelpSteer3_CLI/
+# Python caches
+**/__pycache__/
+**/*.pyc
+*.egg-info/
+
+# Hydra outputs
+**/.hydra/
+
+# HuggingFace caches (if any)
+**/.cache/
 
