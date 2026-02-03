@@ -15,8 +15,8 @@ reward-zlf/data/HelpSteer3_CLI/
 **/.hydra/
 
 # HuggingFace caches (if any)
-**/.cache/
+.cache/
 
-**/.vscode/
-**/.gemini/
+.vscode/
+.gemini/
 
