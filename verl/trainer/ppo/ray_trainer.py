@@ -1580,7 +1580,24 @@ class RayPPOTrainer:
                         batch.batch["token_level_scores"] = reward_tensor
 
                         if reward_extra_infos_dict:
+                            # Keep raw extra infos on batch for dumping/inspection
                             batch.non_tensor_batch.update({k: np.array(v) for k, v in reward_extra_infos_dict.items()})
+
+                            # Also aggregate numeric extras into scalar metrics so loggers (console/swanlab/wandb)
+                            # can display them. Non-numeric fields (e.g. pred/gt) are skipped.
+                            for _k, _v in reward_extra_infos_dict.items():
+                                try:
+                                    _arr = np.asarray(_v)
+                                    if _arr.size == 0:
+                                        continue
+                                    if _arr.dtype.kind not in {"i", "u", "f", "b"}:
+                                        continue
+                                    _arr = _arr.astype(np.float32)
+                                    metrics[f"reward_extra/{_k}/mean"] = float(np.nanmean(_arr))
+                                    metrics[f"reward_extra/{_k}/min"] = float(np.nanmin(_arr))
+                                    metrics[f"reward_extra/{_k}/max"] = float(np.nanmax(_arr))
+                                except Exception:
+                                    continue
 
                         # compute rewards. apply_kl_penalty if available
                         if self.config.algorithm.use_kl_in_reward:
