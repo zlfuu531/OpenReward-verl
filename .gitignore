@@ -17,7 +17,6 @@ reward-zlf/data/HelpSteer3_CLI/
 # HuggingFace caches (if any)
 **/.cache/
 
-# IDE / assistant
-.vscode/
-.gemini/
+**/.vscode/
+**/.gemini/
 
